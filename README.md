@@ -10,6 +10,7 @@ Insert Refactoring To-Do List Here.
 - Addition of Main Menu
 - Addition of Settings [Volume, Difficulty, Etc]
 - Addition of toggleable info bar for next tetromino
+- Addition of transparent layer to indicate the location and position of the tetronimo when it lands.
 - Possible Addition of history & lore of tetris
 - Seamless transitioning between gameplay to menu
 - Addition of Pause Screen
