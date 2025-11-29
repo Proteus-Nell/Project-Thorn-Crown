@@ -14,7 +14,8 @@
             <GridPane fx:id="gamePanel" hgap="1" vgap="1" layoutY="30" layoutX="40"/>
         </center>
     </BorderPane>
-
+    <Button text="Pause" onAction="#pauseGame" layoutX="250" layoutY="10"/>
+    <Button text="New Game" onAction="#newGame" layoutX="225" layoutY="40"/>
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>

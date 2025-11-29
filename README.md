@@ -16,9 +16,15 @@ Insert Refactoring To-Do List Here.
 - Addition of Pause Screen
 - Addition of parrying & more forgiving gameplay
 - Selection of music to choose from [Integration with spotify, youtube music & soundcloud? check API's]
+- Addition of keyboard binding controls and modification.
 
 ## Documentation: <br>
 Insert Documentation list here.
+
+## Instructions:
+To run the game, either:
+- Run Launcher.java
+- Run 'mvn clean javafx:run' after running the 'cd' command into the git folder.
 
 
 <!--
