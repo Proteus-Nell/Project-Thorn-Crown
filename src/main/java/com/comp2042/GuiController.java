@@ -41,7 +41,7 @@ public class GuiController implements Initializable {
     private static final int BRICK_SIZE = 20;
     private static final int BOARD_ROW_OFFSET = 2; // Skip top 2 rows for spawn area
     private static final int BRICK_PANEL_Y_OFFSET = -42; // Vertical alignment offset
-    private static final int GAME_TICK_DURATION_MS = 400; // Auto-drop interval
+    private static final int GAME_TICK_DURATION_MS = 100; // Auto-drop interval
 
     @FXML
     private GridPane gamePanel;
@@ -76,32 +76,40 @@ public class GuiController implements Initializable {
     }
 
     private void handleKeyPress(KeyEvent keyEvent) {
+        KeyCode code = keyEvent.getCode();
+
         // Game controls
         if (!isPause.get() && !isGameOver.get()) {
-            if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A) {
-                refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.RIGHT || keyEvent.getCode() == KeyCode.D) {
-                refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W) {
-                refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
-                keyEvent.consume();
-            }
-            if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
-                moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+            boolean handled = switch (code) {
+                case LEFT, A -> {
+                    refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
+                    yield true;
+                }
+                case RIGHT, D -> {
+                    refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
+                    yield true;
+                }
+                case UP, W -> {
+                    refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
+                    yield true;
+                }
+                case DOWN, S -> {
+                    moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+                    yield true;
+                }
+                default -> false;
+            };
+            if (handled) {
                 keyEvent.consume();
             }
         }
 
-        // Universal Controls
-        if (keyEvent.getCode() == KeyCode.N) {
-            newGame(null);
-        }
-        if (keyEvent.getCode() == KeyCode.P || keyEvent.getCode() == KeyCode.ESCAPE) {
-            pauseGame(null);
+        // Universal controls
+        switch (code) {
+            case N -> newGame(null);
+            case P, ESCAPE -> pauseGame(null);
+            default -> {
+            }
         }
     }
 
@@ -110,10 +118,16 @@ public class GuiController implements Initializable {
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
-        // Note in use at the moment.
+        // Not in use right now
     }
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
+        initializeDisplayMatrix(boardMatrix);
+        initializeBrickPanel(brick);
+        setupGameTimeline();
+    }
+
+    public void initializeDisplayMatrix(int[][] boardMatrix) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
         for (int i = BOARD_ROW_OFFSET; i < boardMatrix.length; i++) {
             for (int j = 0; j < boardMatrix[i].length; j++) {
@@ -123,7 +137,9 @@ public class GuiController implements Initializable {
                 gamePanel.add(rectangle, j, i - BOARD_ROW_OFFSET);
             }
         }
+    }
 
+    public void initializeBrickPanel(ViewData brick) {
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -134,6 +150,9 @@ public class GuiController implements Initializable {
             }
         }
         calculateBrickPanelLayout(brick);
+    }
+
+    public void setupGameTimeline() {
         timeLine = new Timeline(new KeyFrame(
                 Duration.millis(GAME_TICK_DURATION_MS),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))));
