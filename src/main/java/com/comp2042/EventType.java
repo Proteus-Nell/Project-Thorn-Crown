@@ -1,5 +1,5 @@
 package com.comp2042;
 
 public enum EventType {
-    DOWN, LEFT, RIGHT, ROTATE, FAST_DROP
+    DOWN, FAST_DROP, LEFT, RIGHT, ROTATE
 }
