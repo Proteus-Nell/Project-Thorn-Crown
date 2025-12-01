@@ -1,98 +1,114 @@
 package com.comp2042;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MatrixOperations {
 
+    private static final int SCORE_MULTIPLIER_PER_ROW = 50;
 
-    //We don't want to instantiate this utility class
-    private MatrixOperations(){
+    // We don't want to instantiate this utility class
+    private MatrixOperations() {
 
     }
 
     public static boolean intersect(final int[][] matrix, final int[][] brick, int x, int y) {
-        for (int i = 0; i < brick.length; i++) {
-            for (int j = 0; j < brick[i].length; j++) {
-                int targetX = x + i;
-                int targetY = y + j;
-                if (brick[j][i] != 0 && (checkOutOfBound(matrix, targetX, targetY) || matrix[targetY][targetX] != 0)) {
-                    return true;
+        // Check each cell of the brick for collision
+        for (int row = 0; row < brick.length; row++) {
+            for (int col = 0; col < brick[row].length; col++) {
+                if (brick[col][row] == 0) {
+                    continue; // Skip empty cells
+                }
+
+                int targetX = x + row;
+                int targetY = y + col;
+                boolean outOfBounds = checkOutOfBound(matrix, targetX, targetY);
+                boolean cellOccupied = !outOfBounds && matrix[targetY][targetX] != 0;
+
+                if (outOfBounds || cellOccupied) {
+                    return true; // Collision detected
                 }
             }
         }
-        return false;
+        return false; // No collision
     }
 
+    /*
+     * Check if the target position is out of bounds, resolves a crash bug where the
+     * game would crash when the tetronimo is out of bounds.
+     */
     private static boolean checkOutOfBound(int[][] matrix, int targetX, int targetY) {
-        boolean returnValue = true;
-        if (targetX >= 0 && targetY < matrix.length && targetX < matrix[targetY].length) {
-            returnValue = false;
-        }
-        return returnValue;
+        return targetY < 0 || targetY >= matrix.length || // Y out of bounds
+                targetX < 0 || targetX >= matrix[targetY].length; // X out of bounds
     }
 
     public static int[][] copy(int[][] original) {
-        int[][] myInt = new int[original.length][];
+        int[][] newMatrix = new int[original.length][];
         for (int i = 0; i < original.length; i++) {
-            int[] aMatrix = original[i];
-            int aLength = aMatrix.length;
-            myInt[i] = new int[aLength];
-            System.arraycopy(aMatrix, 0, myInt[i], 0, aLength);
+            int[] row = original[i];
+            int rowLength = row.length;
+            newMatrix[i] = new int[rowLength];
+            System.arraycopy(row, 0, newMatrix[i], 0, rowLength);
         }
-        return myInt;
+        return newMatrix;
     }
 
     public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
-        int[][] copy = copy(filledFields);
-        for (int i = 0; i < brick.length; i++) {
-            for (int j = 0; j < brick[i].length; j++) {
-                int targetX = x + i;
-                int targetY = y + j;
-                if (brick[j][i] != 0) {
-                    copy[targetY][targetX] = brick[j][i];
+        int[][] result = copy(filledFields);
+
+        // Place brick cells onto the result matrix
+        for (int row = 0; row < brick.length; row++) {
+            for (int col = 0; col < brick[row].length; col++) {
+                if (brick[col][row] != 0) {
+                    result[y + col][x + row] = brick[col][row];
                 }
             }
         }
-        return copy;
+        return result;
     }
 
     public static ClearRow checkRemoving(final int[][] matrix) {
-        int[][] tmp = new int[matrix.length][matrix[0].length];
-        Deque<int[]> newRows = new ArrayDeque<>();
-        List<Integer> clearedRows = new ArrayList<>();
-
-        for (int i = 0; i < matrix.length; i++) {
-            int[] tmpRow = new int[matrix[i].length];
-            boolean rowToClear = true;
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == 0) {
-                    rowToClear = false;
-                }
-                tmpRow[j] = matrix[i][j];
-            }
-            if (rowToClear) {
-                clearedRows.add(i);
+        List<int[]> keptRows = new ArrayList<>();
+        int clearedRowCount = 0;
+        // Identify and separate complete rows from incomplete rows
+        for (int row = 0; row < matrix.length; row++) {
+            if (isRowComplete(matrix[row])) {
+                clearedRowCount++;
             } else {
-                newRows.add(tmpRow);
+                keptRows.add(copyRow(matrix[row]));
             }
         }
-        for (int i = matrix.length - 1; i >= 0; i--) {
-            int[] row = newRows.pollLast();
-            if (row != null) {
-                tmp[i] = row;
-            } else {
-                break;
-            }
+        // Build result matrix: empty rows at top, kept rows at bottom
+        int[][] resultMatrix = new int[matrix.length][matrix[0].length];
+        int startRow = matrix.length - keptRows.size();
+        for (int i = 0; i < keptRows.size(); i++) {
+            resultMatrix[startRow + i] = keptRows.get(i);
         }
-        int scoreBonus = 50 * clearedRows.size() * clearedRows.size();
-        return new ClearRow(clearedRows.size(), tmp, scoreBonus);
+        int scoreBonus = SCORE_MULTIPLIER_PER_ROW * clearedRowCount * clearedRowCount;
+        return new ClearRow(clearedRowCount, resultMatrix, scoreBonus);
     }
 
-    public static List<int[][]> deepCopyList(List<int[][]> list){
+    // Check if a row is completely filled (no empty cells).
+    private static boolean isRowComplete(int[] row) {
+        for (int cell : row) {
+            if (cell == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Create a copy of a single row.
+     */
+    private static int[] copyRow(int[] row) {
+        int[] copy = new int[row.length];
+        System.arraycopy(row, 0, copy, 0, row.length);
+        return copy;
+    }
+
+    public static List<int[][]> deepCopyList(List<int[][]> list) {
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }
 

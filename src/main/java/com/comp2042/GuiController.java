@@ -6,7 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -41,7 +40,7 @@ public class GuiController implements Initializable {
     private static final int BRICK_SIZE = 20;
     private static final int BOARD_ROW_OFFSET = 2; // Skip top 2 rows for spawn area
     private static final int BRICK_PANEL_Y_OFFSET = -42; // Vertical alignment offset
-    private static final int GAME_TICK_DURATION_MS = 100; // Auto-drop interval
+    private static final int GAME_TICK_DURATION_MS = 400; // Auto-drop interval
 
     @FXML
     private GridPane gamePanel;
@@ -97,7 +96,12 @@ public class GuiController implements Initializable {
                     moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                     yield true;
                 }
+                case SPACE -> {
+                    handleDownData(eventListener.onFastDropEvent(new MoveEvent(EventType.FAST_DROP, EventSource.USER)));
+                    yield true;
+                }
                 default -> false;
+
             };
             if (handled) {
                 keyEvent.consume();
@@ -199,16 +203,19 @@ public class GuiController implements Initializable {
 
     private void moveDown(MoveEvent event) {
         if (!isPause.get()) {
-            DownData downData = eventListener.onDownEvent(event);
-            if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                NotificationPanel notificationPanel = new NotificationPanel(
-                        "+" + downData.getClearRow().getScoreBonus());
-                groupNotification.getChildren().add(notificationPanel);
-                notificationPanel.showScore(groupNotification.getChildren());
-            }
-            refreshBrick(downData.getViewData());
+            handleDownData(eventListener.onDownEvent(event));
         }
         gamePanel.requestFocus();
+    }
+
+    private void handleDownData(DownData downData) {
+        if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
+            NotificationPanel notificationPanel = new NotificationPanel(
+                    "+" + downData.getClearRow().getScoreBonus());
+            groupNotification.getChildren().add(notificationPanel);
+            notificationPanel.showScore(groupNotification.getChildren());
+        }
+        refreshBrick(downData.getViewData());
     }
 
     public void gameOver() {
