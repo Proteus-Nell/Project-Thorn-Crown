@@ -4,7 +4,8 @@ public record ViewData(
         int[][] brickData,
         int xPosition,
         int yPosition,
-        int[][] nextBrickData) {
+        int[][] nextBrickData,
+        int ghostYPosition) {
 
     public int[][] getBrickData() {
         return MatrixOperations.copy(brickData);
