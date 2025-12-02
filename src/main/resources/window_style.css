@@ -70,3 +70,16 @@
     -fx-fill: yellow;
     -fx-text-fill: yellow;
 }
+.scoreLabel {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 16px;
+    -fx-text-fill: #61a2b1;
+    -fx-font-weight: bold;
+}
+
+.scoreValue {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 32px;
+    -fx-text-fill: yellow;
+    -fx-font-weight: bold;
+}

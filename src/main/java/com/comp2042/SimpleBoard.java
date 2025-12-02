@@ -71,6 +71,18 @@ public class SimpleBoard implements Board {
         return !conflict;
     }
 
+    /**
+     * Check if the brick can move down without actually moving it.
+     * Used to verify if a piece should be locked.
+     */
+    public boolean canMoveDown() {
+        Point testPosition = new Point(getCurrentX(), getCurrentY());
+        testPosition.translate(0, 1);
+        int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
+        return !MatrixOperations.intersect(currentMatrix, brickRotator.getCurrentShape(),
+                (int) testPosition.getX(), (int) testPosition.getY());
+    }
+
     @Override
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();

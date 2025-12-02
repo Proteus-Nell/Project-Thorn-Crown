@@ -50,6 +50,8 @@ public class GuiController implements Initializable {
     private GridPane brickPanel;
     @FXML
     private GameOverPanel gameOverPanel;
+    @FXML
+    private javafx.scene.control.Label scoreLabel;
 
     private Rectangle[][] displayMatrix;
     private Rectangle[][] rectangles;
@@ -256,7 +258,6 @@ public class GuiController implements Initializable {
     }
 
     public void bindScore(IntegerProperty integerProperty) {
-        // Implement the score logic here, future to-do, not being removed/refactored
-        // since being implemented in the future.
+        scoreLabel.textProperty().bind(integerProperty.asString());
     }
 }

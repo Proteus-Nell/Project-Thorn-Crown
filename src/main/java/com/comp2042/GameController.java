@@ -29,9 +29,6 @@ public class GameController implements InputEventListener {
         if (canMove) {
             // Piece moved down successfully
             stopLockDelay();
-            if (event.getEventSource() == EventSource.USER) {
-                board.getScore().add(1);
-            }
             return new DownData(null, board.getViewData());
         }
 
@@ -132,6 +129,15 @@ public class GameController implements InputEventListener {
 
     // Locks piece and updates GUI (called by timer).
     private void lockPieceNow() {
+        // Verify the piece still cannot move down before locking
+        // This prevents race conditions where the piece is moved just as the timer
+        // expires
+        if (((SimpleBoard) board).canMoveDown()) {
+            // Piece can still move down, don't lock it
+            stopLockDelay();
+            return;
+        }
+
         stopLockDelay();
         board.mergeBrickToBackground();
 

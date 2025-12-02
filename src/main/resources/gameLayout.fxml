@@ -18,6 +18,11 @@
     <Button text="Pause" onAction="#pauseGame" layoutX="250" layoutY="10"/>
     <Button text="New Game" onAction="#newGame" layoutX="225" layoutY="40"/>
 
+    <VBox layoutX="225" layoutY="80" spacing="5">
+        <Label text="SCORE" styleClass="scoreLabel"/>
+        <Label fx:id="scoreLabel" text="0" styleClass="scoreValue"/>
+    </VBox>
+
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>
