@@ -249,6 +249,12 @@ public class GuiController implements Initializable {
         this.eventListener = eventListener;
     }
 
+    public void showScoreNotification(int scoreBonus) {
+        NotificationPanel notificationPanel = new NotificationPanel("+" + scoreBonus);
+        groupNotification.getChildren().add(notificationPanel);
+        notificationPanel.showScore(groupNotification.getChildren());
+    }
+
     public void bindScore(IntegerProperty integerProperty) {
         // Implement the score logic here, future to-do, not being removed/refactored
         // since being implemented in the future.
