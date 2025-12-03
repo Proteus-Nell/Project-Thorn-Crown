@@ -6,12 +6,21 @@ import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Generates Tetris bricks randomly.
+ * Maintains a queue of upcoming bricks to allow peeking at the next brick.
+ */
 public class RandomBrickGenerator implements BrickGenerator {
 
     private final List<Brick> brickList;
 
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
 
+    /**
+     * Constructs a new RandomBrickGenerator.
+     * Initializes the list of available bricks and pre-fills the queue with two
+     * random bricks.
+     */
     public RandomBrickGenerator() {
         brickList = new ArrayList<>();
         brickList.add(new IBrick());
@@ -25,6 +34,9 @@ public class RandomBrickGenerator implements BrickGenerator {
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Brick getBrick() {
         if (nextBricks.size() <= 1) {
@@ -33,6 +45,9 @@ public class RandomBrickGenerator implements BrickGenerator {
         return nextBricks.poll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Brick getNextBrick() {
         return nextBricks.peek();

@@ -4,15 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class for matrix operations.
+ * Provides methods for collision detection, matrix copying, merging, and row
+ * clearing.
+ */
 public class MatrixOperations {
 
-    private static final int SCORE_MULTIPLIER_PER_ROW = 50;
+    private static final int SCORE_MULTIPLIER_PER_ROW = GameConfig.SCORE_MULTIPLIER_PER_ROW;
 
     // We don't want to instantiate this utility class
     private MatrixOperations() {
 
     }
 
+    /**
+     * Checks if a brick collides with existing blocks in the matrix.
+     *
+     * @param matrix The board matrix.
+     * @param brick  The brick shape matrix.
+     * @param x      The x-coordinate of the brick.
+     * @param y      The y-coordinate of the brick.
+     * @return true if a collision is detected, false otherwise.
+     */
     public static boolean intersect(final int[][] matrix, final int[][] brick, int x, int y) {
         // Check each cell of the brick for collision
         for (int row = 0; row < brick.length; row++) {
@@ -43,6 +57,12 @@ public class MatrixOperations {
                 targetX < 0 || targetX >= matrix[targetY].length; // X out of bounds
     }
 
+    /**
+     * Creates a deep copy of a 2D integer array.
+     *
+     * @param original The original matrix.
+     * @return A deep copy of the matrix.
+     */
     public static int[][] copy(int[][] original) {
         int[][] newMatrix = new int[original.length][];
         for (int i = 0; i < original.length; i++) {
@@ -54,6 +74,15 @@ public class MatrixOperations {
         return newMatrix;
     }
 
+    /**
+     * Merges a brick into the board matrix.
+     *
+     * @param filledFields The current board matrix.
+     * @param brick        The brick shape matrix.
+     * @param x            The x-coordinate of the brick.
+     * @param y            The y-coordinate of the brick.
+     * @return A new matrix with the brick merged in.
+     */
     public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
         int[][] result = copy(filledFields);
 
@@ -68,6 +97,12 @@ public class MatrixOperations {
         return result;
     }
 
+    /**
+     * Checks for and removes full rows from the matrix.
+     *
+     * @param matrix The board matrix.
+     * @return A {@link ClearRow} object containing the result of the operation.
+     */
     public static ClearRow checkRemoving(final int[][] matrix) {
         List<int[]> keptRows = new ArrayList<>();
         int clearedRowCount = 0;
@@ -108,6 +143,12 @@ public class MatrixOperations {
         return copy;
     }
 
+    /**
+     * Creates a deep copy of a list of 2D integer arrays.
+     *
+     * @param list The original list.
+     * @return A deep copy of the list.
+     */
     public static List<int[][]> deepCopyList(List<int[][]> list) {
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }

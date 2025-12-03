@@ -4,9 +4,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+/**
+ * Controls the main game logic and flow.
+ * Handles user input events, updates the game state, and manages the game loop.
+ */
 public class GameController implements InputEventListener {
 
-    private final Board board = new SimpleBoard(25, 10);
+    private final Board board = new SimpleBoard(GameConfig.BOARD_WIDTH, GameConfig.BOARD_HEIGHT);
     private final GuiController viewGuiController;
 
     // Lock delay timer components
@@ -14,6 +18,12 @@ public class GameController implements InputEventListener {
     private boolean lockDelayActive = false;
     private int lockResetCount = 0;
 
+    /**
+     * Constructs a new GameController.
+     * Initializes the board and binds the GUI controller.
+     * 
+     * @param c The {@link GuiController} responsible for the view.
+     */
     public GameController(GuiController c) {
         viewGuiController = c;
         board.createNewBrick();
@@ -22,6 +32,13 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
     }
 
+    /**
+     * Handles the 'down' event (moving the brick down).
+     * Manages lock delay logic when the brick cannot move further.
+     *
+     * @param event The move event.
+     * @return The {@link DownData} containing the result of the move.
+     */
     @Override
     public DownData onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
@@ -42,6 +59,13 @@ public class GameController implements InputEventListener {
         return new DownData(null, board.getViewData());
     }
 
+    /**
+     * Handles the 'left' event (moving the brick left).
+     * Resets lock delay if active and move is successful.
+     *
+     * @param event The move event.
+     * @return The updated {@link ViewData}.
+     */
     @Override
     public ViewData onLeftEvent(MoveEvent event) {
         boolean moved = board.moveBrickLeft();
@@ -51,6 +75,13 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles the 'right' event (moving the brick right).
+     * Resets lock delay if active and move is successful.
+     *
+     * @param event The move event.
+     * @return The updated {@link ViewData}.
+     */
     @Override
     public ViewData onRightEvent(MoveEvent event) {
         boolean moved = board.moveBrickRight();
@@ -60,6 +91,13 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles the 'rotate' event (rotating the brick).
+     * Resets lock delay if active and rotation is successful.
+     *
+     * @param event The move event.
+     * @return The updated {@link ViewData}.
+     */
     @Override
     public ViewData onRotateEvent(MoveEvent event) {
         boolean rotated = board.rotateLeftBrick();
@@ -69,6 +107,13 @@ public class GameController implements InputEventListener {
         return board.getViewData();
     }
 
+    /**
+     * Handles the 'fast drop' event (dropping the brick to the bottom).
+     * Locks the piece immediately.
+     *
+     * @param event The move event.
+     * @return The {@link DownData} containing the result of the drop.
+     */
     @Override
     public DownData onFastDropEvent(MoveEvent event) {
         stopLockDelay();
@@ -81,6 +126,10 @@ public class GameController implements InputEventListener {
         return lockPieceAndReturn();
     }
 
+    /**
+     * Starts a new game.
+     * Resets the board and game state.
+     */
     @Override
     public void createNewGame() {
         stopLockDelay();
@@ -88,12 +137,18 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 
+    /**
+     * Starts the lock delay timer.
+     */
     private void startLockDelay() {
         lockDelayActive = true;
         lockResetCount = 0;
         createLockTimer();
     }
 
+    /**
+     * Resets the lock delay timer if the maximum resets haven't been reached.
+     */
     private void resetLockDelay() {
         lockResetCount++;
 
@@ -106,6 +161,9 @@ public class GameController implements InputEventListener {
         }
     }
 
+    /**
+     * Stops the lock delay timer.
+     */
     private void stopLockDelay() {
         if (lockTimer != null) {
             lockTimer.stop();
@@ -115,6 +173,9 @@ public class GameController implements InputEventListener {
         lockResetCount = 0;
     }
 
+    /**
+     * Creates and starts the timeline for lock delay.
+     */
     private void createLockTimer() {
         if (lockTimer != null) {
             lockTimer.stop();
@@ -128,6 +189,10 @@ public class GameController implements InputEventListener {
     }
 
     // Locks piece and updates GUI (called by timer).
+    /**
+     * Locks the piece immediately.
+     * Called when the lock timer expires.
+     */
     private void lockPieceNow() {
         // Verify the piece still cannot move down before locking
         // This prevents race conditions where the piece is moved just as the timer
@@ -158,6 +223,12 @@ public class GameController implements InputEventListener {
     }
 
     // Locks piece and returns DownData (for immediate locking scenarios).
+    /**
+     * Locks the piece and returns the result.
+     * Used for fast drops or when lock delay is disabled.
+     *
+     * @return The {@link DownData} result.
+     */
     private DownData lockPieceAndReturn() {
         stopLockDelay();
         board.mergeBrickToBackground();

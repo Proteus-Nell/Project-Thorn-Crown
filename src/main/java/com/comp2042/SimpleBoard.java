@@ -6,6 +6,10 @@ import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 import java.awt.*;
 
+/**
+ * Implementation of the Board interface.
+ * Manages the game grid, active brick, and game logic.
+ */
 public class SimpleBoard implements Board {
 
     private final int width;
@@ -15,9 +19,15 @@ public class SimpleBoard implements Board {
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
-    private static final int TETRONIMO_STARTPOS_X = 4;
-    private static final int TETRONIMO_STARTPOS_Y = 10;
+    private static final int TETRONIMO_STARTPOS_X = GameConfig.TETROMINO_START_X;
+    private static final int TETRONIMO_STARTPOS_Y = GameConfig.TETROMINO_START_Y;
 
+    /**
+     * Constructs a new SimpleBoard.
+     *
+     * @param width  The width of the board.
+     * @param height The height of the board.
+     */
     public SimpleBoard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -27,16 +37,25 @@ public class SimpleBoard implements Board {
         score = new Score();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveBrickDown() {
         return moveBrick(0, 1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveBrickLeft() {
         return moveBrick(-1, 0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean moveBrickRight() {
         return moveBrick(1, 0);
@@ -50,6 +69,9 @@ public class SimpleBoard implements Board {
                 () -> currentOffset = newPosition);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean rotateLeftBrick() {
         NextShapeInfo nextShape = brickRotator.getNextShape();
@@ -83,6 +105,9 @@ public class SimpleBoard implements Board {
                 (int) testPosition.getX(), (int) testPosition.getY());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();
@@ -92,6 +117,9 @@ public class SimpleBoard implements Board {
                 getCurrentX(), getCurrentY());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mergeBrickToBackground() {
         currentGameMatrix = MatrixOperations.merge(currentGameMatrix, brickRotator.getCurrentShape(),
@@ -107,16 +135,25 @@ public class SimpleBoard implements Board {
         return (int) currentOffset.getY();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Score getScore() {
         return score;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int[][] getBoardMatrix() {
         return MatrixOperations.copy(currentGameMatrix); // Returns an encapsulated copy of the current game matrix.
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ViewData getViewData() {
         int ghostY = calculateGhostPosition();
@@ -136,6 +173,9 @@ public class SimpleBoard implements Board {
         return ghostY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClearRow clearRows() {
         ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
@@ -144,6 +184,9 @@ public class SimpleBoard implements Board {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void newGame() {
         currentGameMatrix = new int[width][height];
