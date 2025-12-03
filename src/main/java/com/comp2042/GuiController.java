@@ -26,6 +26,8 @@ public class GuiController implements Initializable {
     @FXML
     private GameOverPanel gameOverPanel;
     @FXML
+    private ResumePanel resumePanel;
+    @FXML
     private javafx.scene.control.Label scoreLabel;
 
     // Component delegates
@@ -62,12 +64,14 @@ public class GuiController implements Initializable {
         stateManager.setNotificationManager(notificationManager);
         stateManager.setBrickRenderer(brickRenderer);
         stateManager.setBoardRenderer(boardRenderer);
+        stateManager.setGuiController(this);
 
         keyboardHandler.setGameStateManager(stateManager);
         keyboardHandler.setBrickRenderer(brickRenderer);
         keyboardHandler.setBoardRenderer(boardRenderer);
 
         gameOverPanel.setVisible(false);
+        resumePanel.setVisible(false);
     }
 
     /**
@@ -171,5 +175,46 @@ public class GuiController implements Initializable {
     @FXML
     public void pauseGame(ActionEvent actionEvent) {
         stateManager.togglePause();
+    }
+
+    /**
+     * Handles back to menu button click.
+     * Pauses the game and switches back to the main menu.
+     * Game can be resumed later.
+     * 
+     * @param actionEvent The action event
+     */
+    @FXML
+    public void backToMenu(ActionEvent actionEvent) {
+        resumePanel.setVisible(false); // Hide resume panel when going to menu
+        // Only pause if not already paused (to avoid unpausing a paused game)
+        if (!stateManager.isPaused()) {
+            stateManager.togglePause();
+        }
+        Main.showMenu();
+    }
+
+    /**
+     * Shows the resume panel instructing player to press ESC.
+     */
+    public void showResumePanel() {
+        resumePanel.setVisible(true);
+        gamePanel.requestFocus(); // Ensure keyboard input is captured
+    }
+
+    /**
+     * Hides the resume panel and resumes gameplay.
+     */
+    public void hideResumePanel() {
+        resumePanel.setVisible(false);
+    }
+
+    /**
+     * Gets the game panel for scene restoration.
+     * 
+     * @return The game panel GridPane
+     */
+    public GridPane getGamePanel() {
+        return gamePanel;
     }
 }

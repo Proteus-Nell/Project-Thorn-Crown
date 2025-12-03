@@ -24,6 +24,7 @@ public class GameStateManager {
     private BrickRenderer brickRenderer;
     private BoardRenderer boardRenderer;
     private int[][] currentBoardMatrix;
+    private GuiController guiController;
 
     /**
      * Sets the game over panel.
@@ -68,6 +69,15 @@ public class GameStateManager {
      */
     public void setBoardRenderer(BoardRenderer boardRenderer) {
         this.boardRenderer = boardRenderer;
+    }
+
+    /**
+     * Sets the GUI controller.
+     * 
+     * @param guiController The GUI controller.
+     */
+    public void setGuiController(GuiController guiController) {
+        this.guiController = guiController;
     }
 
     /**
@@ -148,6 +158,10 @@ public class GameStateManager {
     public void newGame() {
         timeLine.stop();
         gameOverPanel.setVisible(false);
+        // Hide resume panel when starting new game
+        if (guiController != null) {
+            guiController.hideResumePanel();
+        }
         eventListener.createNewGame();
         gamePanel.requestFocus();
         timeLine.play();
@@ -161,9 +175,17 @@ public class GameStateManager {
      */
     public void togglePause() {
         if (isPause.get()) {
+            // Resuming from pause - hide resume panel
+            if (guiController != null) {
+                guiController.hideResumePanel();
+            }
             timeLine.play();
             isPause.set(false);
         } else {
+            // Pausing game - show resume panel
+            if (guiController != null) {
+                guiController.showResumePanel();
+            }
             timeLine.stop();
             isPause.set(true);
         }

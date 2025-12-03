@@ -21,7 +21,7 @@ public final class GameConfig {
 
     // -------------------- Lock Delay Settings --------------------
     /** Duration in milliseconds before a piece locks when it can't move down */
-    public static final int LOCK_DELAY_MS = 300;
+    public static final int LOCK_DELAY_MS = 420;
 
     /** Maximum number of times lock delay can be reset by moving/rotating */
     public static final int MAX_LOCK_RESETS = 10;

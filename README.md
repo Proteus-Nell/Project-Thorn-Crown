@@ -4,20 +4,25 @@
 <br>Introduction for Project. <br>
 
 ## Refactoring: <br>
-Insert Refactoring To-Do List Here.
+- Structure the package & java files
+- Resolve duplicate code issues in GameController
+- Resolve Primitive Obsession throughout project
+- Look for more issues.
 
 ## Addition: <br>
-- Addition of Main Menu
+- Addition of Main Menu [Done!]
 - Addition of Settings [Volume, Difficulty, Etc]
 - Addition of toggleable info bar for next tetromino
 - Addition of transparent layer to indicate the location and position of the tetronimo when it lands. [Done!]
 - Possible Addition of history & lore of tetris
 - Seamless transitioning between gameplay to menu
-- Addition of Pause Screen
+- Addition of Pause Screen [Done!]
 - Addition of parrying & more forgiving gameplay
 - Selection of music to choose from [Integration with spotify, youtube music & soundcloud? check API's]
     - Can't. . . against 3rd party/dev TOS.
 - Addition of keyboard binding controls and modification.
+- Looking to SRS systems & more into Tetris
+- Implementing full-screen & scaling UI elements.
 
 ## Documentation: <br>
 Insert Documentation list here.
