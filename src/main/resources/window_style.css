@@ -23,10 +23,10 @@
 
 .ipad-dark-grey {
     -fx-background-color: linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
-    linear-gradient(#020b02, #3a3a3a),
-    linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
-    linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
-    linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
+        linear-gradient(#020b02, #3a3a3a),
+        linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
+        linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
+        linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
     -fx-background-insets: 0, 1, 4, 5, 6;
     -fx-background-radius: 9, 8, 5, 4, 3;
     -fx-padding: 8;
@@ -64,12 +64,13 @@
     -fx-background-color: red;
 }
 
-.scoreClass{
+.scoreClass {
     -fx-font-family: "Let's go Digital";
     -fx-font-size: 38;
     -fx-fill: yellow;
     -fx-text-fill: yellow;
 }
+
 .scoreLabel {
     -fx-font-family: "Let's go Digital";
     -fx-font-size: 16px;
@@ -82,4 +83,67 @@
     -fx-font-size: 32px;
     -fx-text-fill: yellow;
     -fx-font-weight: bold;
+}
+
+/* Modern Button Styles */
+.menu-button {
+    -fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 30px;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 4);
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+}
+
+.menu-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #764ba2 0%, #667eea 100%);
+    -fx-effect: dropshadow(gaussian, rgba(118, 75, 162, 0.6), 15, 0.6, 0, 6);
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
+}
+
+.menu-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #5a67d8 0%, #6b46a0 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0.4, 0, 2);
+    -fx-translate-y: 2px;
+}
+
+/* Game Control Buttons (Pause, New Game, Menu in gameLayout) */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0.4, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #00f2fe 0%, #4facfe 100%);
+    -fx-effect: dropshadow(gaussian, rgba(79, 172, 254, 0.5), 12, 0.5, 0, 4);
+    -fx-scale-y: 1.08;
+    -fx-scale-x: 1.08;
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #3d9bea 0%, #00d9e8 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.3, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+/* Main Menu Styling */
+.main-menu {
+    -fx-background-color: rgba(20, 20, 30, 0.95);
+}
+
+.title-label {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 8, 0.6, 0, 2);
 }

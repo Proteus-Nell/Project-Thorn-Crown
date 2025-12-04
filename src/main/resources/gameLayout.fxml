@@ -16,16 +16,16 @@
         </center>
     </BorderPane>
     
-    <Button text="Pause" onAction="#pauseGame" layoutX="250" layoutY="10"/>
-    <Button text="New Game" onAction="#newGame" layoutX="225" layoutY="40"/>
-    <Button text="Menu" onAction="#backToMenu" layoutX="250" layoutY="70"/>
+    <Button text="Pause" onAction="#pauseGame" layoutX="427" layoutY="10"/>
+    <Button text="New Game" onAction="#newGame" layoutX="400" layoutY="50"/>
+    <Button text="Menu" onAction="#backToMenu" layoutX="427" layoutY="90"/>
 
-    <VBox layoutX="225" layoutY="110" spacing="5">
+    <VBox layoutX="245" layoutY="110" spacing="5">
         <Label text="SCORE" styleClass="scoreLabel"/>
         <Label fx:id="scoreLabel" text="0" styleClass="scoreValue"/>
     </VBox>
 
-    <VBox layoutX="225" layoutY="180" spacing="5">
+    <VBox layoutX="245" layoutY="180" spacing="5">
         <Label text="NEXT" styleClass="scoreLabel"/>
         <GridPane fx:id="nextBrickPanel" vgap="1" hgap="1" 
                   style="-fx-background-color: #1a1a1a; -fx-padding: 5;"/>

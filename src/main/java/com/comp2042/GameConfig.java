@@ -17,11 +17,11 @@ public final class GameConfig {
     public static final int TETROMINO_START_X = 4;
 
     /** Starting Y position for new tetrominos */
-    public static final int TETROMINO_START_Y = 10;
+    public static final int TETROMINO_START_Y = 5;
 
     // -------------------- Lock Delay Settings --------------------
     /** Duration in milliseconds before a piece locks when it can't move down */
-    public static final int LOCK_DELAY_MS = 420;
+    public static final int LOCK_DELAY_MS = 450;
 
     /** Maximum number of times lock delay can be reset by moving/rotating */
     public static final int MAX_LOCK_RESETS = 10;
@@ -74,10 +74,10 @@ public final class GameConfig {
 
     // -------------------- Window Configuration --------------------
     /** Initial window width in pixels */
-    public static final int WINDOW_WIDTH = 300;
+    public static final int WINDOW_WIDTH = 500;
 
     /** Initial window height in pixels */
-    public static final int WINDOW_HEIGHT = 510;
+    public static final int WINDOW_HEIGHT = 550;
 
     // Prevent instantiation
     private GameConfig() {
