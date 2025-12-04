@@ -29,11 +29,14 @@ public class GuiController implements Initializable {
     private ResumePanel resumePanel;
     @FXML
     private javafx.scene.control.Label scoreLabel;
+    @FXML
+    private GridPane nextBrickPanel;
 
     // Component delegates
     private KeyboardInputHandler keyboardHandler;
     private BoardRenderer boardRenderer;
     private BrickRenderer brickRenderer;
+    private NextBrickRenderer nextBrickRenderer;
     private GameStateManager stateManager;
     private NotificationManager notificationManager;
 
@@ -55,6 +58,7 @@ public class GuiController implements Initializable {
         // Initialize all component delegates
         boardRenderer = new BoardRenderer();
         brickRenderer = new BrickRenderer();
+        nextBrickRenderer = new NextBrickRenderer();
         stateManager = new GameStateManager();
         notificationManager = new NotificationManager(groupNotification);
         keyboardHandler = new KeyboardInputHandler();
@@ -84,6 +88,7 @@ public class GuiController implements Initializable {
         // Initialize renderers
         boardRenderer.initialize(boardMatrix, gamePanel);
         brickRenderer.initialize(brick, brickPanel, gamePanel, boardRenderer);
+        nextBrickRenderer.initialize(brick.getNextBrickData(), nextBrickPanel);
 
         // Setup game timeline
         stateManager.setupTimeline(gamePanel,
@@ -113,11 +118,30 @@ public class GuiController implements Initializable {
 
         boardRenderer.refresh(board);
 
-        // Render ghost if we have current brick data
-        ViewData currentBrick = brickRenderer.getCurrentViewData();
-        if (currentBrick != null) {
-            brickRenderer.renderGhost(currentBrick, board);
+        // Render ghost using cached ViewData
+        ViewData currentViewData = brickRenderer.getCurrentViewData();
+        if (currentViewData != null) {
+            brickRenderer.renderGhost(currentViewData, board);
+            nextBrickRenderer.refresh(currentViewData.getNextBrickData());
         }
+    }
+
+    /**
+     * Refreshes the game background with explicit ViewData.
+     * Use this when ViewData has just been updated (e.g., after creating a new brick).
+     * 
+     * @param board Current board matrix
+     * @param viewData Fresh ViewData from the board
+     */
+    public void refreshGameBackgroundWithViewData(int[][] board, ViewData viewData) {
+        // Update keyboard handler and state manager with latest board state
+        keyboardHandler.updateBoardMatrix(board);
+        stateManager.updateBoardMatrix(board);
+
+        boardRenderer.refresh(board);
+        brickRenderer.renderGhost(viewData, board);
+        // Use fresh ViewData to get accurate next brick
+        nextBrickRenderer.refresh(viewData.getNextBrickData());
     }
 
     /**
@@ -174,7 +198,10 @@ public class GuiController implements Initializable {
      */
     @FXML
     public void pauseGame(ActionEvent actionEvent) {
-        stateManager.togglePause();
+        // Don't allow pausing if game is over
+        if (!stateManager.isGameOver()) {
+            stateManager.togglePause();
+        }
     }
 
     /**

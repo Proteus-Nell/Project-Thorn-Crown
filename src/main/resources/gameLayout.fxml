@@ -25,6 +25,12 @@
         <Label fx:id="scoreLabel" text="0" styleClass="scoreValue"/>
     </VBox>
 
+    <VBox layoutX="225" layoutY="180" spacing="5">
+        <Label text="NEXT" styleClass="scoreLabel"/>
+        <GridPane fx:id="nextBrickPanel" vgap="1" hgap="1" 
+                  style="-fx-background-color: #1a1a1a; -fx-padding: 5;"/>
+    </VBox>
+
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>

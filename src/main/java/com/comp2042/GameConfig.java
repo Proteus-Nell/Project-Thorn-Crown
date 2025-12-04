@@ -40,7 +40,7 @@ public final class GameConfig {
     public static final int BRICK_PANEL_Y_OFFSET = -42;
 
     /** Opacity of ghost tetromino preview (0.0 - 1.0) */
-    public static final double GHOST_OPACITY = 0.70;
+    public static final double GHOST_OPACITY = 0.50;
 
     // -------------------- Game Timing --------------------
     /** Auto-drop interval in milliseconds (how fast pieces fall) */
@@ -71,16 +71,6 @@ public final class GameConfig {
 
     /** Vertical distance notification moves upward in pixels */
     public static final int NOTIFICATION_MOVE_DISTANCE = 40;
-
-    // -------------------- Visual Effects Configuration --------------------
-    /** Reflection effect fraction (unused currently) */
-    public static final double REFLECTION_FRACTION = 0.8;
-
-    /** Reflection effect top opacity (unused currently) */
-    public static final double REFLECTION_TOP_OPACITY = 0.9;
-
-    /** Reflection effect top offset (unused currently) */
-    public static final int REFLECTION_TOP_OFFSET = -12;
 
     // -------------------- Window Configuration --------------------
     /** Initial window width in pixels */

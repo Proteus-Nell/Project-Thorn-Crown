@@ -7,12 +7,15 @@
 - Structure the package & java files
 - Resolve duplicate code issues in GameController
 - Resolve Primitive Obsession throughout project
+- Resolve naming conventions (bricks to tetronimo, etc)
 - Look for more issues.
+
+- Remove or rework methods that aren't being used.
 
 ## Addition: <br>
 - Addition of Main Menu [Done!]
 - Addition of Settings [Volume, Difficulty, Etc]
-- Addition of toggleable info bar for next tetromino
+- Addition of toggleable info bar for next tetromino [Done!]
 - Addition of transparent layer to indicate the location and position of the tetronimo when it lands. [Done!]
 - Possible Addition of history & lore of tetris
 - Seamless transitioning between gameplay to menu

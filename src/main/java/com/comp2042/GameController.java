@@ -218,8 +218,9 @@ public class GameController implements InputEventListener {
             viewGuiController.gameOver();
         }
 
-        // Update display
-        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        // Update display with fresh ViewData
+        ViewData newViewData = board.getViewData();
+        viewGuiController.refreshGameBackgroundWithViewData(board.getBoardMatrix(), newViewData);
     }
 
     // Locks piece and returns DownData (for immediate locking scenarios).
@@ -244,9 +245,10 @@ public class GameController implements InputEventListener {
             viewGuiController.gameOver();
         }
 
-        // Update display
-        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        // Update display with fresh ViewData
+        ViewData newViewData = board.getViewData();
+        viewGuiController.refreshGameBackgroundWithViewData(board.getBoardMatrix(), newViewData);
 
-        return new DownData(clearRow, board.getViewData());
+        return new DownData(clearRow, newViewData);
     }
 }
