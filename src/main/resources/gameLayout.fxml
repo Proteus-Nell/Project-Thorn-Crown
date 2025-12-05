@@ -6,6 +6,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import com.comp2042.view.panel.MusicPlayerPanel?>
 
 <BorderPane fx:controller="com.comp2042.controller.GuiController"
             xmlns:fx="http://javafx.com/fxml"
@@ -73,6 +74,14 @@
                               alignment="CENTER"/>
                 </StackPane>
             </VBox>
+            
+            <!-- Spacer -->
+            <Region VBox.vgrow="SOMETIMES" prefHeight="15"/>
+            
+            <!-- Music Player -->
+            <MusicPlayerPanel xmlns="http://javafx.com/javafx" 
+                             xmlns:fx="http://javafx.com/fxml"
+                             fx:id="musicPlayerPanel"/>
             
             <!-- Bottom spacer -->
             <Region VBox.vgrow="ALWAYS"/>

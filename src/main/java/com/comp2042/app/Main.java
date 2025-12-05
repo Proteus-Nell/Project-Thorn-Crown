@@ -36,6 +36,10 @@ public class Main extends Application {
     public void start(Stage stage) {
         primaryStage = stage;
         primaryStage.setTitle("TetrisJFX");
+
+        // Initialize audio manager (pre-loads music from resources/music)
+        com.comp2042.manager.AudioManager.getInstance();
+
         showMenu();
         primaryStage.show();
     }

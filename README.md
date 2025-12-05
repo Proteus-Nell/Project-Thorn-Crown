@@ -13,16 +13,16 @@
 - Remove or rework methods that aren't being used.
 
 ## Addition: <br>
-- Completed
+- Completed:
     - Addition of Main Menu 
     - Addition of toggleable info bar for next tetromino 
     - Addition of transparent layer to indicate the location and position of the tetronimo when it lands. 
     - Seamless transitioning between gameplay to menu
     - Addition of Pause Screen 
-- Pending
+- Pending:
     - Addition of Settings [Volume, Difficulty, Sound, Etc]
     - Implementing full-screen & scaling UI elements. [Partially Done, abandoning full-screen implementation]
-- Haven't started
+- Haven't started:
     - Looking into SRS systems & more into Tetris
         - Addition of parrying & more forgiving gameplay
     - Possible Addition of history & lore of tetris
