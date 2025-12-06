@@ -62,11 +62,11 @@ public class MainMenuController {
 
     /**
      * Handles Settings button click.
-     * Currently a placeholder for future settings implementation.
+     * Opens the settings screen.
      */
     @FXML
     void onSettings(ActionEvent event) {
-        System.out.println("Settings clicked - placeholder for future implementation");
+        Main.showSettings();
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.comp2042.manager;
 
-import com.comp2042.config.GameConfig;
 import com.comp2042.controller.GuiController;
 import com.comp2042.input.InputEventListener;
 import com.comp2042.input.MoveEvent;
@@ -21,7 +20,6 @@ import javafx.util.Duration;
  * Responsible for controlling game flow and state transitions.
  */
 public class GameStateManager {
-    private static final int GAME_TICK_DURATION_MS = GameConfig.GAME_TICK_DURATION_MS;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
@@ -100,14 +98,17 @@ public class GameStateManager {
 
     /**
      * Sets up the game timeline (game loop).
+     * Uses difficulty-based tick rate.
      *
      * @param gamePanel The main game panel.
      * @param onTick    The runnable to execute on each game tick.
      */
     public void setupTimeline(GridPane gamePanel, Runnable onTick) {
         this.gamePanel = gamePanel;
+        // Get tick duration from current difficulty setting
+        int tickDuration = SettingsManager.getInstance().getDifficulty().getTickDurationMs();
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(GAME_TICK_DURATION_MS),
+                Duration.millis(tickDuration),
                 ae -> onTick.run()));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();

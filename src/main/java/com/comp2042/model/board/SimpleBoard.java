@@ -26,7 +26,6 @@ public class SimpleBoard implements Board {
     private Point currentOffset;
     private final Score score;
     private static final int TETRONIMO_STARTPOS_X = GameConfig.TETROMINO_START_X;
-    private static final int TETRONIMO_STARTPOS_Y = GameConfig.TETROMINO_START_Y;
 
     /**
      * Constructs a new SimpleBoard.
@@ -113,12 +112,15 @@ public class SimpleBoard implements Board {
 
     /**
      * {@inheritDoc}
+     * Uses difficulty-based spawn height.
      */
     @Override
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
-        currentOffset = new Point(TETRONIMO_STARTPOS_X, TETRONIMO_STARTPOS_Y);
+        // Get Y position from current difficulty
+        int spawnY = com.comp2042.manager.SettingsManager.getInstance().getDifficulty().getSpawnYPosition();
+        currentOffset = new Point(TETRONIMO_STARTPOS_X, spawnY);
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(),
                 getCurrentX(), getCurrentY());
     }

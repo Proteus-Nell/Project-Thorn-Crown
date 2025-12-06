@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -101,6 +102,47 @@ public class Main extends Application {
             new GameController(currentGuiController);
             hasActiveGame = true;
 
+            // Add window focus listener to restore game panel focus after alt-tab
+            GridPane gamePanel = currentGuiController.getGamePanel();
+            primaryStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                if (isNowFocused && gamePanel != null) {
+                    gamePanel.requestFocus();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the settings screen.
+     */
+    public static void showSettings() {
+        try {
+            URL location = Main.class.getClassLoader().getResource("Settings.fxml");
+            FXMLLoader fxmlLoader = new FXMLLoader(location);
+            Parent root = fxmlLoader.load();
+
+            // Larger window for settings (VALIDATION POINT: 800px height)
+            Scene settingsScene = new Scene(root, GameConfig.WINDOW_WIDTH, 800);
+            primaryStage.setScene(settingsScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the main menu screen.
+     */
+    public static void showMainMenu() {
+        try {
+            URL location = Main.class.getClassLoader().getResource("MainMenu.fxml");
+            FXMLLoader fxmlLoader = new FXMLLoader(location);
+            Parent root = fxmlLoader.load();
+
+            Scene mainMenuScene = new Scene(root, GameConfig.WINDOW_WIDTH, GameConfig.WINDOW_HEIGHT);
+            primaryStage.setScene(mainMenuScene);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.comp2042.controller.SettingsController"
+      alignment="CENTER" spacing="20" styleClass="main-menu">
+    
+    <padding>
+        <Insets top="40" right="50" bottom="40" left="50"/>
+    </padding>
+    
+    <!-- VALIDATION POINT: Window dimensions -->
+    <prefWidth>500</prefWidth>
+    <prefHeight>800</prefHeight>
+    
+    <!-- Title -->
+    <Label text="SETTINGS" styleClass="title-label" textFill="white">
+        <font>
+            <Font name="System Bold" size="36"/>
+        </font>
+    </Label>
+    
+    <Region VBox.vgrow="SOMETIMES" minHeight="20"/>
+    
+    <!-- Music Settings -->
+    <VBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Music" textFill="white">
+            <font>
+                <Font name="System Bold" size="20"/>
+            </font>
+        </Label>
+        
+        <CheckBox fx:id="musicMuteCheckbox" text="Mute Music" textFill="white"
+                  style="-fx-font-size: 16px;"/>
+    </VBox>
+    
+    <Separator/>
+    
+    <!-- Difficulty Settings -->
+    <VBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Difficulty" textFill="white">
+            <font>
+                <Font name="System Bold" size="20"/>
+            </font>
+        </Label>
+        
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Mode:" textFill="white" style="-fx-font-size: 16px;"/>
+            <ComboBox fx:id="difficultyComboBox" prefWidth="150"
+                      style="-fx-font-size: 14px;"/>
+        </HBox>
+        
+        <Label text="(Changes apply on new game)" textFill="#888888"
+               style="-fx-font-size: 12px; -fx-font-style: italic;"/>
+    </VBox>
+    
+    <Separator/>
+    
+    <!-- Keybind Settings -->
+    <VBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Controls" textFill="white">
+            <font>
+                <Font name="System Bold" size="20"/>
+            </font>
+        </Label>
+        
+        <GridPane hgap="20" vgap="10">
+            <Label text="Move Left:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Button fx:id="leftKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            
+            <Label text="Move Right:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Button fx:id="rightKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            
+            <Label text="Move Down:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Button fx:id="downKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            
+            <Label text="Rotate:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Button fx:id="rotateKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            
+            <Label text="Fast Drop:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Button fx:id="dropKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            
+            <Label text="Pause:" textFill="white" style="-fx-font-size: 14px;"
+                   GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Button fx:id="pauseKeyButton" minWidth="100" styleClass="button"
+                    GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        </GridPane>
+        
+        <Button fx:id="resetKeysButton" text="Reset to Defaults" styleClass="button"
+                onAction="#onResetKeys"/>
+    </VBox>
+    
+    <Region VBox.vgrow="ALWAYS"/>
+    
+    <!-- Back Button -->
+    <Button text="BACK TO MENU" onAction="#onBackToMenu" styleClass="menu-button">
+        <font>
+            <Font name="Arial Bold" size="18"/>
+        </font>
+    </Button>
+    
+</VBox>

@@ -100,41 +100,41 @@ public class KeyboardInputHandler {
 
     /**
      * Handles game control keys (movement, rotation).
+     * VALIDATION POINT: Uses dynamic keybindings
      *
      * @param code The key code.
      * @return true if the key was handled, false otherwise.
      */
     private boolean handleGameControls(KeyCode code) {
-        return switch (code) {
-            case LEFT, A -> {
-                ViewData viewData = eventListener.onLeftEvent(
-                        new MoveEvent(EventType.LEFT, EventSource.USER));
-                refreshBrickWithGhost(viewData);
-                yield true;
-            }
-            case RIGHT, D -> {
-                ViewData viewData = eventListener.onRightEvent(
-                        new MoveEvent(EventType.RIGHT, EventSource.USER));
-                refreshBrickWithGhost(viewData);
-                yield true;
-            }
-            case UP, W -> {
-                ViewData viewData = eventListener.onRotateEvent(
-                        new MoveEvent(EventType.ROTATE, EventSource.USER));
-                refreshBrickWithGhost(viewData);
-                yield true;
-            }
-            case DOWN, S -> {
-                stateManager.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
-                yield true;
-            }
-            case SPACE -> {
-                stateManager.handleFastDrop(eventListener.onFastDropEvent(
-                        new MoveEvent(EventType.FAST_DROP, EventSource.USER)));
-                yield true;
-            }
-            default -> false;
-        };
+        com.comp2042.model.settings.KeyBindings bindings = com.comp2042.manager.SettingsManager.getInstance()
+                .getKeyBindings();
+
+        // Check each action against current keybindings
+        if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.MOVE_LEFT)) {
+            ViewData viewData = eventListener.onLeftEvent(
+                    new MoveEvent(EventType.LEFT, EventSource.USER));
+            refreshBrickWithGhost(viewData);
+            return true;
+        } else if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.MOVE_RIGHT)) {
+            ViewData viewData = eventListener.onRightEvent(
+                    new MoveEvent(EventType.RIGHT, EventSource.USER));
+            refreshBrickWithGhost(viewData);
+            return true;
+        } else if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.MOVE_DOWN)) {
+            stateManager.moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
+            return true;
+        } else if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.ROTATE)) {
+            ViewData viewData = eventListener.onRotateEvent(
+                    new MoveEvent(EventType.ROTATE, EventSource.USER));
+            refreshBrickWithGhost(viewData);
+            return true;
+        } else if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.FAST_DROP)) {
+            stateManager.handleFastDrop(eventListener.onFastDropEvent(
+                    new MoveEvent(EventType.FAST_DROP, EventSource.USER)));
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -160,11 +160,13 @@ public class KeyboardInputHandler {
      * @param code The key code.
      */
     private void handleUniversalControls(KeyCode code) {
-        switch (code) {
-            case N -> stateManager.newGame();
-            case P, ESCAPE -> stateManager.togglePause();
-            default -> {
-            }
+        com.comp2042.model.settings.KeyBindings bindings = com.comp2042.manager.SettingsManager.getInstance()
+                .getKeyBindings();
+
+        if (code == KeyCode.N) {
+            stateManager.newGame();
+        } else if (code == bindings.getBinding(com.comp2042.model.settings.KeyBindings.Action.PAUSE)) {
+            stateManager.togglePause();
         }
     }
 }
